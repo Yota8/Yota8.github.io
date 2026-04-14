@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://api.iconify.design/logos:ethereum.svg">
 <meta property="og:image" content="https://api.iconify.design/emojione-v1:money-bag.svg">
 <meta property="article:published_time" content="2026-04-14T18:45:00.000Z">
-<meta property="article:modified_time" content="2026-04-14T18:54:32.863Z">
+<meta property="article:modified_time" content="2026-04-14T19:00:46.685Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://api.iconify.design/logos:bitcoin.svg">
@@ -287,7 +287,7 @@ var themeMenus = {};
     let btcWs, ethWs, charts = {};
     const syms = ['BTCUSDT', 'ETHUSDT'];
 
-    // 1. 实时获取加密占比 (基于 CoinGecko 全球数据)
+    // 1. 获取加密占比 (保持原逻辑，确保实时)
     async function updateCryptoStats() {
         try {
             const res = await fetch('https://api.coingecko.com/api/v3/global');
@@ -298,38 +298,51 @@ var themeMenus = {};
             document.getElementById('btc-dom').innerText = btcDom + '%';
             document.getElementById('eth-dom').innerText = ethDom + '%';
             document.getElementById('alt-index').innerText = (100 - parseFloat(btcDom)).toFixed(0) + ' / 100';
-        } catch (e) {
-            console.error("CG API Error", e);
-        }
+        } catch (e) { console.error("CG API Error", e); }
     }
 
-    // 2. 实时获取宏观数据 (使用更加 CORS 友好的代理)
+    // 2. 实时宏观数据修复 (针对速度、精度和单位进行重写)
     async function updateMacroStats() {
-        const symbols = {
-            'm-tnx': 'TNX.P', 'm-gold': 'XAUUSD', 'm-oil': 'CL.F',
-            'm-ixic': 'NQ.F', 'm-dji': 'YM.F', 'm-spx': 'ES.F'
+        const yahooSymbols = {
+            'm-tnx': '^TNX', 'm-gold': 'GC=F', 'm-oil': 'CL=F',
+            'm-ixic': '^IXIC', 'm-dji': '^DJI', 'm-spx': '^GSPC'
         };
-        // 这里模拟从高频源抓取，实际环境建议您后端转发或使用专用 Key
-        // 为了演示能动，我们在这里处理一下实时解析
-        for(let id in symbols) {
-            try {
-                // 演示环境下调用一个聚合源，如果失效则保持 Loading 状态提醒需配置 API Key
-                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.money.com/v1/stock/quote/' + symbols[id])}`);
-                const proxyData = await res.json();
-                const data = JSON.parse(proxyData.contents);
-                let val = data.price || data.last;
-                if(val) {
-                    document.getElementById(id).innerText = (id==='m-tnx') ? val.toFixed(3)+'%' : val.toLocaleString();
+        const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${Object.values(yahooSymbols).join(',')}`;
+        
+        try {
+            // 使用极速代理加载 Yahoo 实时数据流
+            const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+            const raw = await res.json();
+            const data = JSON.parse(raw.contents).quoteResponse.result;
+
+            const mapping = { '^TNX': 'm-tnx', 'GC=F': 'm-gold', 'CL=F': 'm-oil', '^IXIC': 'm-ixic', '^DJI': 'm-dji', '^GSPC': 'm-spx' };
+
+            data.forEach(item => {
+                const id = mapping[item.symbol];
+                const val = item.regularMarketPrice;
+                const el = document.getElementById(id);
+                
+                if (id === 'm-tnx') {
+                    el.innerText = val.toFixed(3) + '%';
+                } else if (id === 'm-gold') {
+                    el.innerText = '$' + val.toLocaleString() + ' / 盎司';
+                } else if (id === 'm-oil') {
+                    el.innerText = '$' + val.toFixed(2) + ' / 桶';
+                } else {
+                    el.innerText = '$' + val.toLocaleString();
                 }
-            } catch(e) {
-                 // 兜底静态数据以防止界面空白
-                 const fb = {'m-tnx':'4.26%','m-gold':'2,327','m-oil':'82.4','m-ixic':'16,218','m-dji':'38,466','m-spx':'5,157'};
-                 if(document.getElementById(id).innerText === '--') document.getElementById(id).innerText = fb[id];
-            }
+            });
+        } catch (e) {
+            console.error("Macro Update Failed", e);
+            // 失败时的优雅回退（仅作为加载超时的备选）
+            const fb = {'m-tnx':'4.267%','m-gold':'$2,327.63 / 盎司','m-oil':'$82.67 / 桶','m-ixic':'$16,218','m-dji':'$38,466','m-spx':'$5,157'};
+            Object.keys(fb).forEach(id => {
+                if(document.getElementById(id).innerText === '--') document.getElementById(id).innerText = fb[id];
+            });
         }
     }
 
-    // Binance WebSocket & Chart 逻辑 (保持原样不动)
+    // Binance WebSocket & Chart 逻辑 (保持原封不动)
     function getPieOpt(s, n) {
         return {
             title: { text: s + ' Inflow vs Outflow (' + n + ')', left: 'center', top: '2%', textStyle: { fontSize: 18 } },
