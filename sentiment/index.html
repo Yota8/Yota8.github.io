@@ -23,15 +23,15 @@
   
   
   
-  <meta name="description" content="&#x2F;* 1. 强制全屏化：清除侧边栏干扰 *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1">
+  <meta name="description" content="&#x2F;* 1. 布局优化：强制全宽并隐藏侧边栏 *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width:">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Market Sentiment Analysis">
 <meta property="og:url" content="https://www.liuzhongxu.com/sentiment/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="&#x2F;* 1. 强制全屏化：清除侧边栏干扰 *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1">
+<meta property="og:description" content="&#x2F;* 1. 布局优化：强制全宽并隐藏侧边栏 *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width:">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-04-14T17:40:00.000Z">
-<meta property="article:modified_time" content="2026-04-14T17:49:45.497Z">
+<meta property="article:modified_time" content="2026-04-14T17:51:11.578Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -193,71 +193,81 @@ var themeMenus = {};
       
         
 <style>
-/* 1. 强制全屏化：清除侧边栏干扰 */
+/* 1. 布局优化：强制全宽并隐藏侧边栏 */
 #sidebar, #secondary, .widget-area { display: none !important; }
 #main { width: 100% !important; float: none !important; margin: 0 auto !important; }
 .container { max-width: 1600px !important; width: 98% !important; }
 
-/* 2. 按钮深度美化：解决白底白字与交互 */
-.sentiment-wrapper { text-align: center; padding: 20px; background: #fafafa; border-radius: 15px; }
-.time-tabs { margin: 0 auto 30px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+/* 2. 界面美化：解决白底白字问题 */
+.sentiment-wrapper { 
+    text-align: center; 
+    padding: 25px; 
+    background: #fdfdfd; 
+    border-radius: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+.time-tabs { margin: 0 auto 30px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
 .tab-btn { 
-    padding: 12px 20px; 
-    border: 2px solid #eee; 
+    padding: 12px 22px; 
+    border: 2px solid #eeeeee; 
     background-color: #ffffff !important; /* 强制白底 */
-    color: #444444 !important; /* 强制深色字 */
+    color: #444444 !important; /* 强制深色字，防止看不见 */
     cursor: pointer; 
     border-radius: 10px; 
     font-size: 14px; 
-    font-weight: bold;
+    font-weight: 600;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+
 .tab-btn:hover { 
     border-color: #26a69a; 
     background-color: #f0fdfa !important;
     color: #26a69a !important;
 }
+
 .tab-btn.active { 
     background-color: #26a69a !important; 
-    color: #ffffff !important; /* 激活时白字 */
+    color: #ffffff !important; 
     border-color: #26a69a; 
     box-shadow: 0 4px 12px rgba(38,166,154,0.3); 
 }
 
-/* 3. 强制并排布局：解决换行问题 */
+/* 3. 图表容器：强制横向并排不换行 */
 .chart-container { 
     display: flex !important; 
-    flex-direction: row !important; /* 强制横向 */
+    flex-direction: row !important; 
     justify-content: space-around !important; 
     align-items: center !important;
-    flex-wrap: nowrap !important; /* 禁止换行，强制并排 */
+    flex-wrap: nowrap !important; /* 强制并排 */
     gap: 20px; 
     width: 100%;
-    overflow-x: auto; /* 若屏幕实在太窄，允许横向滚动而不是换行 */
+    overflow-x: auto; 
 }
+
 .chart-box { 
     flex: 1; 
-    min-width: 400px; /* 稍微缩小最小宽度确保并排 */
-    max-width: 700px; 
+    min-width: 420px; 
+    max-width: 750px; 
     height: 550px; 
     background: #ffffff; 
-    border-radius: 18px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
     padding: 20px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #f2f2f2;
 }
 </style>
 
 <div class="sentiment-wrapper">
     <div class="time-tabs" id="timeTabs">
-        <button class="tab-btn" data-p="live">实时 Live</button>
-        <button class="tab-btn active" data-p="1m">1分钟</button>
-        <button class="tab-btn" data-p="15m">15分钟</button>
-        <button class="tab-btn" data-p="1h">1小时</button>
-        <button class="tab-btn" data-p="1d">1天</button>
-        <button class="tab-btn" data-p="1w">1周</button>
-        <button class="tab-btn" data-p="1M">1月</button>
+        <button class="tab-btn" data-p="live">Live</button>
+        <button class="tab-btn active" data-p="1m">1 Min</button>
+        <button class="tab-btn" data-p="15m">15 Min</button>
+        <button class="tab-btn" data-p="1h">1 Hour</button>
+        <button class="tab-btn" data-p="1d">1 Day</button>
+        <button class="tab-btn" data-p="1w">1 Week</button>
+        <button class="tab-btn" data-p="1M">1 Month</button>
     </div>
     <div class="chart-container">
         <div id="btc-chart" class="chart-box"></div>
@@ -273,13 +283,25 @@ var themeMenus = {};
 
     function getOpt(s, n) {
         return {
-            title: { text: s + ' ' + n + ' 净流入/出', left: 'center', top: '2%', textStyle: { fontSize: 20, fontWeight: 'bold' } },
-            tooltip: { trigger: 'item', padding: 10, backgroundColor: 'rgba(255,255,255,0.95)', formatter: '{b}<br/><b>{c}</b> ({d}%)' },
+            title: { 
+                text: s + ' Inflow vs Outflow (' + n + ')', 
+                left: 'center', 
+                top: '2%', 
+                textStyle: { fontSize: 20, fontWeight: 'bold', color: '#2c3e50' } 
+            },
+            tooltip: { 
+                trigger: 'item', 
+                padding: 10, 
+                backgroundColor: 'rgba(255,255,255,0.95)', 
+                formatter: '{b}<br/><b>{c}</b> ({d}%)' 
+            },
             legend: { bottom: '2%', icon: 'circle' },
             series: [{
-                type: 'pie', radius: ['45%', '72%'],
+                name: 'Market Sentiment',
+                type: 'pie', 
+                radius: ['45%', '72%'],
                 itemStyle: { borderRadius: 12, borderColor: '#fff', borderWidth: 4 },
-                label: { show: true, position: 'outside', formatter: '{b}\n{d}%', fontSize: 13 },
+                label: { show: true, position: 'outside', formatter: '{b}\n{d}%', fontSize: 13, color: '#555' },
                 data: [
                     {value:0, name:'Inflow (Buy)', itemStyle:{color:'#26a69a'}}, 
                     {value:0, name:'Outflow (Sell)', itemStyle:{color:'#ef5350'}}
@@ -292,7 +314,8 @@ var themeMenus = {};
         if (btcWs) btcWs.close(); if (ethWs) ethWs.close();
         for (const s of syms) {
             const c = charts[s]; if (!c) continue;
-            c.showLoading({ text: 'Updating...', color: '#26a69a', textColor: '#26a69a' });
+            c.showLoading({ text: 'Loading...', color: '#26a69a', textColor: '#26a69a' });
+            
             if (p === 'live') {
                 let b=0, se=0;
                 const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${s.toLowerCase()}@trade`);
@@ -311,7 +334,7 @@ var themeMenus = {};
                     const buy = parseFloat(k[9]), total = parseFloat(k[5]);
                     c.setOption(getOpt(s, p.toUpperCase()));
                     c.setOption({series:[{data:[{value:buy.toFixed(2), name:'Inflow (Buy)'},{value:(total-buy).toFixed(2), name:'Outflow (Sell)'}]}]});
-                } catch(e) { console.error("API Error:", e); }
+                } catch(e) { console.error("Error:", e); }
             }
             c.hideLoading();
         }
@@ -322,6 +345,7 @@ var themeMenus = {};
             const dom = document.getElementById(s === 'BTCUSDT' ? 'btc-chart' : 'eth-chart');
             if(dom) charts[s] = echarts.init(dom);
         });
+        
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -329,7 +353,9 @@ var themeMenus = {};
                 up(this.dataset.p);
             };
         });
-        up('1m'); // 默认 1分钟
+        
+        // 默认加载 1分钟数据
+        up('1m'); 
     });
 })();
 </script>
