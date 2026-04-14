@@ -30,8 +30,8 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="&#x2F;* 1. Layout &amp; Global *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width:">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-04-14T18:05:00.000Z">
-<meta property="article:modified_time" content="2026-04-14T18:02:14.283Z">
+<meta property="article:published_time" content="2026-04-14T18:05:01.000Z">
+<meta property="article:modified_time" content="2026-04-14T18:09:36.946Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -180,12 +180,12 @@ var themeMenus = {};
     <div class="article-meta">
       
 	Posted on <a href="/sentiment/index.html" class="article-date">
-	  <time datetime="2026-04-14T18:05:00.000Z" itemprop="datePublished">April 15, 2026</time>
+	  <time datetime="2026-04-14T18:05:01.000Z" itemprop="datePublished">April 15, 2026</time>
 	</a>
 
       
-	<span id="busuanzi_container_page_pv">
-	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	<br> <span id="busuanzi_container_page_pv">
+	  Views<span id="busuanzi_value_page_pv"></span>
 	</span>
 
     </div>
@@ -209,7 +209,7 @@ var themeMenus = {};
 
 /* 2. Charts Layout */
 .chart-container { display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; gap: 20px; width: 100%; overflow-x: auto; }
-.chart-box { flex: 1; min-width: 420px; height: 500px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); padding: 20px; border: 1px solid #f2f2f2; }
+.chart-box { flex: 1; min-width: 450px; height: 500px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); padding: 20px; border: 1px solid #f2f2f2; }
 
 /* 3. F&G Index & Sigma Formula Section */
 .fng-container { width: 100%; margin-top: 30px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); padding: 20px; border: 1px solid #f2f2f2; }
@@ -244,17 +244,16 @@ var themeMenus = {};
 
     <div class="fng-container">
         <div id="fng-chart" style="width: 100%; height: 400px;"></div>
-        
         <div class="formula-math">
             <div class="sigma-formula">
                 Index = ∑<sub>i=1</sub><sup>5</sup> (w<sub>i</sub> × c<sub>i</sub>)
             </div>
             <div class="comp-legend">
                 <span><b>w₁ (30%):</b> Volatility</span>
-                <span><b>w₂ (30%):</b> Market Momentum</span>
+                <span><b>w₂ (30%):</b> Momentum</span>
                 <span><b>w₃ (20%):</b> Social Media</span>
-                <span><b>w₄ (10%):</b> BTC Dominance</span>
-                <span><b>w₅ (10%):</b> Google Trends</span>
+                <span><b>w₄ (10%):</b> Dominance</span>
+                <span><b>w₅ (10%):</b> Trends</span>
             </div>
         </div>
     </div>
@@ -272,10 +271,23 @@ var themeMenus = {};
             tooltip: { trigger: 'item', formatter: '{b}<br/><b>{c}</b> ({d}%)' },
             legend: { bottom: '2%', icon: 'circle' },
             series: [{
-                type: 'pie', radius: ['45%', '70%'],
+                type: 'pie', 
+                /* 稍微减小内径和外径，为长数字标签留出空间 */
+                radius: ['40%', '62%'], 
+                center: ['50%', '50%'],
+                avoidLabelOverlap: true,
                 itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 4 },
-                label: { show: true, formatter: '{b}\n{d}%' },
-                data: [{value:0, name:'Inflow (Buy)'}, {value:0, name:'Outflow (Sell)'}]
+                label: { 
+                    show: true, 
+                    position: 'outer',
+                    alignTo: 'none',
+                    /* 格式化标签：显示完整数值和百分比 */
+                    formatter: '{b}\n{c} ({d}%)', 
+                    fontSize: 12,
+                    bleedMargin: 5
+                },
+                labelLine: { show: true, length: 15, length2: 10 },
+                data: [{value:0, name:'Inflow'}, {value:0, name:'Outflow'}]
             }]
         };
     }
@@ -292,7 +304,7 @@ var themeMenus = {};
                 ws.onmessage = (e) => {
                     const d = JSON.parse(e.data);
                     d.m ? se += parseFloat(d.q) : b += parseFloat(d.q);
-                    c.setOption({series:[{data:[{value:b.toFixed(3), name:'Inflow (Buy)', itemStyle:{color:'#26a69a'}},{value:se.toFixed(3), name:'Outflow (Sell)', itemStyle:{color:'#ef5350'}}]}]});
+                    c.setOption({series:[{data:[{value:b.toFixed(3), name:'Inflow', itemStyle:{color:'#26a69a'}},{value:se.toFixed(3), name:'Outflow', itemStyle:{color:'#ef5350'}}]}]});
                 };
                 c.setOption(getPieOpt(s, 'Live'));
             } else {
@@ -301,7 +313,7 @@ var themeMenus = {};
                     const data = await res.json();
                     c.setOption(getPieOpt(s, p.toUpperCase()));
                     const buy = parseFloat(data[0][9]), total = parseFloat(data[0][5]);
-                    c.setOption({series:[{data:[{value:buy.toFixed(2), name:'Inflow (Buy)', itemStyle:{color:'#26a69a'}},{value:(total-buy).toFixed(2), name:'Outflow (Sell)', itemStyle:{color:'#ef5350'}}]}]});
+                    c.setOption({series:[{data:[{value:buy.toFixed(2), name:'Inflow', itemStyle:{color:'#26a69a'}},{value:(total-buy).toFixed(2), name:'Outflow', itemStyle:{color:'#ef5350'}}]}]});
                 } catch(e) { console.error(e); }
             }
             c.hideLoading();
@@ -337,6 +349,7 @@ var themeMenus = {};
             };
         });
         updateCharts('1m'); updateFnG();
+        window.onresize = function() { Object.values(charts).forEach(c => c.resize()); };
     });
 })();
 </script>
