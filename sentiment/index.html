@@ -23,18 +23,18 @@
   
   
   
-  <meta name="description" content="&#x2F;* 全局布局布局 (保持原样) *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1600">
+  <meta name="description" content="&#x2F;* Global Layout *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1600">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Market Sentiment Analysis">
 <meta property="og:url" content="https://www.liuzhongxu.com/sentiment/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="&#x2F;* 全局布局布局 (保持原样) *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1600">
+<meta property="og:description" content="&#x2F;* Global Layout *&#x2F; #sidebar, #secondary, .widget-area { display: none !important; } #main { width: 100% !important; float: none !important; margin: 0 auto !important; } .container { max-width: 1600">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://api.iconify.design/logos:bitcoin.svg">
 <meta property="og:image" content="https://api.iconify.design/logos:ethereum.svg">
 <meta property="og:image" content="https://api.iconify.design/emojione-v1:money-bag.svg">
 <meta property="article:published_time" content="2026-04-14T18:45:00.000Z">
-<meta property="article:modified_time" content="2026-04-14T19:00:46.685Z">
+<meta property="article:modified_time" content="2026-04-15T12:58:54.594Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://api.iconify.design/logos:bitcoin.svg">
@@ -197,13 +197,13 @@ var themeMenus = {};
       
         
 <style>
-/* 全局布局布局 (保持原样) */
+/* Global Layout */
 #sidebar, #secondary, .widget-area { display: none !important; }
 #main { width: 100% !important; float: none !important; margin: 0 auto !important; }
 .container { max-width: 1600px !important; width: 98% !important; }
 .sentiment-wrapper { text-align: center; padding: 25px; background: #fdfdfd; border-radius: 15px; font-family: sans-serif; }
 
-/* 顶栏卡片样式 */
+/* Stats Row Cards */
 .stats-row { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
 .stat-card { 
     flex: 1; min-width: 250px; background: #ffffff; padding: 20px; border-radius: 20px; 
@@ -215,16 +215,7 @@ var themeMenus = {};
 .stat-value { font-size: 26px; color: #26a69a; font-weight: 800; line-height: 1; }
 .stat-icon { width: 45px; height: 45px; object-fit: contain; flex-shrink: 0; }
 
-/* 底部宏观模块样式 */
-.macro-box { margin-top: 40px; padding: 25px; background: #fff; border-radius: 20px; border: 1px solid #eee; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.macro-header { font-size: 18px; font-weight: 800; color: #333; margin-bottom: 20px; }
-.macro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
-.m-card { background: #f9f9f9; border-radius: 12px; padding: 15px; display: flex; align-items: center; border: 1px solid #f0f0f0; }
-.m-icon-box { font-size: 28px; margin-right: 15px; display: flex; align-items: center; justify-content: center; }
-.m-label { font-size: 12px; color: #777; font-weight: 600; }
-.m-price { font-size: 18px; color: #222; font-weight: 700; margin-top: 2px; }
-
-/* 按钮与图表 (保持原样) */
+/* Tabs & Charts */
 .time-tabs { margin: 0 auto 30px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .tab-btn { padding: 10px 20px; border: 2px solid #eeeeee; background-color: #ffffff !important; color: #444444 !important; cursor: pointer; border-radius: 10px; font-size: 14px; font-weight: 600; transition: all 0.3s; }
 .tab-btn.active { background-color: #26a69a !important; color: #ffffff !important; border-color: #26a69a; }
@@ -267,18 +258,6 @@ var themeMenus = {};
     <div class="fng-container">
         <div id="fng-chart" style="width: 100%; height: 400px;"></div>
     </div>
-
-    <div class="macro-box">
-        <div class="macro-header">🌐 Macro Economic Data (Real-time)</div>
-        <div class="macro-grid">
-            <div class="m-card"><div class="m-icon-box">🏛️</div><div><div class="m-label">美10年国债收益率</div><div class="m-price" id="m-tnx">--</div></div></div>
-            <div class="m-card"><div class="m-icon-box">📀</div><div><div class="m-label">黄金价格</div><div class="m-price" id="m-gold">--</div></div></div>
-            <div class="m-card"><div class="m-icon-box">🛢️</div><div><div class="m-label">WTI原油</div><div class="m-price" id="m-oil">--</div></div></div>
-            <div class="m-card"><div class="m-icon-box">📉</div><div><div class="m-label">纳斯达克指数</div><div class="m-price" id="m-ixic">--</div></div></div>
-            <div class="m-card"><div class="m-icon-box">📈</div><div><div class="m-label">道琼斯指数</div><div class="m-price" id="m-dji">--</div></div></div>
-            <div class="m-card"><div class="m-icon-box">📊</div><div><div class="m-label">标普500指数</div><div class="m-price" id="m-spx">--</div></div></div>
-        </div>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
@@ -287,7 +266,7 @@ var themeMenus = {};
     let btcWs, ethWs, charts = {};
     const syms = ['BTCUSDT', 'ETHUSDT'];
 
-    // 1. 获取加密占比 (保持原逻辑，确保实时)
+    // 1. Update Global Market Cap Stats
     async function updateCryptoStats() {
         try {
             const res = await fetch('https://api.coingecko.com/api/v3/global');
@@ -301,51 +280,10 @@ var themeMenus = {};
         } catch (e) { console.error("CG API Error", e); }
     }
 
-    // 2. 实时宏观数据修复 (针对速度、精度和单位进行重写)
-    async function updateMacroStats() {
-        const yahooSymbols = {
-            'm-tnx': '^TNX', 'm-gold': 'GC=F', 'm-oil': 'CL=F',
-            'm-ixic': '^IXIC', 'm-dji': '^DJI', 'm-spx': '^GSPC'
-        };
-        const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${Object.values(yahooSymbols).join(',')}`;
-        
-        try {
-            // 使用极速代理加载 Yahoo 实时数据流
-            const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-            const raw = await res.json();
-            const data = JSON.parse(raw.contents).quoteResponse.result;
-
-            const mapping = { '^TNX': 'm-tnx', 'GC=F': 'm-gold', 'CL=F': 'm-oil', '^IXIC': 'm-ixic', '^DJI': 'm-dji', '^GSPC': 'm-spx' };
-
-            data.forEach(item => {
-                const id = mapping[item.symbol];
-                const val = item.regularMarketPrice;
-                const el = document.getElementById(id);
-                
-                if (id === 'm-tnx') {
-                    el.innerText = val.toFixed(3) + '%';
-                } else if (id === 'm-gold') {
-                    el.innerText = '$' + val.toLocaleString() + ' / 盎司';
-                } else if (id === 'm-oil') {
-                    el.innerText = '$' + val.toFixed(2) + ' / 桶';
-                } else {
-                    el.innerText = '$' + val.toLocaleString();
-                }
-            });
-        } catch (e) {
-            console.error("Macro Update Failed", e);
-            // 失败时的优雅回退（仅作为加载超时的备选）
-            const fb = {'m-tnx':'4.267%','m-gold':'$2,327.63 / 盎司','m-oil':'$82.67 / 桶','m-ixic':'$16,218','m-dji':'$38,466','m-spx':'$5,157'};
-            Object.keys(fb).forEach(id => {
-                if(document.getElementById(id).innerText === '--') document.getElementById(id).innerText = fb[id];
-            });
-        }
-    }
-
-    // Binance WebSocket & Chart 逻辑 (保持原封不动)
+    // 2. Chart Options Helper
     function getPieOpt(s, n) {
         return {
-            title: { text: s + ' Inflow vs Outflow (' + n + ')', left: 'center', top: '2%', textStyle: { fontSize: 18 } },
+            title: { text: s + ' In/Out Flow (' + n + ')', left: 'center', top: '2%', textStyle: { fontSize: 18 } },
             tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
             legend: { bottom: '5%', icon: 'circle' },
             series: [{
@@ -357,6 +295,7 @@ var themeMenus = {};
         };
     }
 
+    // 3. Update Pie Charts (WebSocket for Live, Binance API for intervals)
     async function updateCharts(p) {
         if (btcWs) btcWs.close(); if (ethWs) ethWs.close();
         for (const s of syms) {
@@ -389,6 +328,7 @@ var themeMenus = {};
         }
     }
 
+    // 4. Update Fear & Greed Gauge
     async function updateFnG() {
         try {
             const res = await fetch('https://api.alternative.me/fng/');
@@ -409,16 +349,27 @@ var themeMenus = {};
         } catch (e) { console.error(e); }
     }
 
+    // Initialize
     window.addEventListener('load', () => {
         syms.forEach(s => { charts[s] = echarts.init(document.getElementById(s === 'BTCUSDT' ? 'btc-chart' : 'eth-chart')); });
+        
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active'); updateCharts(this.dataset.p);
+                this.classList.add('active'); 
+                updateCharts(this.dataset.p);
             };
         });
-        updateCharts('1m'); updateFnG(); updateCryptoStats(); updateMacroStats();
-        window.onresize = () => { Object.values(charts).forEach(c => c.resize()); echarts.getInstanceByDom(document.getElementById('fng-chart')).resize(); };
+
+        updateCharts('1m'); 
+        updateFnG(); 
+        updateCryptoStats();
+
+        window.onresize = () => { 
+            Object.values(charts).forEach(c => c.resize()); 
+            const fng = echarts.getInstanceByDom(document.getElementById('fng-chart'));
+            if(fng) fng.resize();
+        };
     });
 })();
 </script>
